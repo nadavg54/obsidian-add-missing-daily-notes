@@ -1,0 +1,11 @@
+{
+	"id": "add-missing-daily-notes",
+	"name": "Add Missing Daily Notes",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "add missing daily notes",
+	"author": "Obsidian",
+	"authorUrl": "https://obsidian.md",
+	"fundingUrl": "https://obsidian.md/pricing",
+	"isDesktopOnly": false
+}
