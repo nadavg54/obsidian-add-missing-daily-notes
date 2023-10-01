@@ -4,11 +4,11 @@ import { AddMissingPathSettingsTab } from 'settings';
 // Remember to rename these classes and interfaces!
 
 interface AddMissingNotesSettings {
-  dailyNotesPath: string;
+  dailyNotesPath:any
 }
 
 const DEFAULT_SETTINGS: Partial<AddMissingNotesSettings> = {
-  dailyNotesPath: 'DailyNotes',
+  dailyNotesPath: {}
 };
 
 export default class AddMissingDailyNotes extends Plugin {
@@ -18,12 +18,14 @@ export default class AddMissingDailyNotes extends Plugin {
     await this.loadSettings();
     this.addSettingTab(new AddMissingPathSettingsTab(this.app, this));
     this.addRibbonIcon('book-open', 'add missing notes', () => {
-      this.addMissingNotes();
+      for(const [key,val] of Object.entries(this.settings.dailyNotesPath)) {
+        this.addMissingNotes(val as string)
+      }
     });
   }
 
-  private addMissingNotes() {
-    const dailyNotesPath = this.settings.dailyNotesPath;
+  private addMissingNotes(path: string) {
+    const dailyNotesPath = path;
     const notesFolder = this.app.vault.getAbstractFileByPath(dailyNotesPath) as TFolder;
     const notesNames = this.getNotesNames(notesFolder.name);
     const dateIterator = new Date();
