@@ -24,10 +24,11 @@ export default class AddMissingDailyNotes extends Plugin {
     });
   }
 
-  private addMissingNotes(path: string) {
+  private async addMissingNotes(path: string) {
     const dailyNotesPath = path;
     const notesFolder = this.app.vault.getAbstractFileByPath(dailyNotesPath) as TFolder;
-    const notesNames = this.getNotesNames(notesFolder.name);
+    const notesNames = await this.getNotesNames22(notesFolder.name);
+
     const dateIterator = new Date();
     const lastMonth = new Date();
     lastMonth.setDate(lastMonth.getMonth() - 1);
@@ -40,11 +41,9 @@ export default class AddMissingDailyNotes extends Plugin {
     }
   }
 
-  private getNotesNames(notesPath: string) {
-    const notesFolder = this.app.vault.getAbstractFileByPath(notesPath) as TFolder;
-    return notesFolder.children
-    .filter(file => file instanceof TFile)
-    .map(file => file.name);
+  private async getNotesNames22(notesPath: string) {
+    const notesFolder = await this.app.vault.adapter.list(notesPath);
+    return notesFolder.files.filter(file => file.endsWith(".md"))
   }
 
   async loadSettings() {
